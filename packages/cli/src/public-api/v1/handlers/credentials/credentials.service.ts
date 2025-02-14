@@ -22,8 +22,10 @@ import type { CredentialRequest } from '@/requests';
 import type { IDependency, IJsonSchema } from '../../../types';
 
 export async function getCredentials(credentialId: string): Promise<ICredentialsDb | null> {
-	return await Container.get(CredentialsRepository).findOneBy({ id: credentialId });
+    const resolvedCredentialId = this.evaluateExpression(credentialId);
+    return await Container.get(CredentialsRepository).findOneBy({ id: resolvedCredentialId });
 }
+
 
 export async function getSharedCredentials(
 	userId: string,
